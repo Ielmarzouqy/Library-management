@@ -91,6 +91,32 @@ public void Author(Connection connection){
             }
             return authors;
         }
+    public void deleteAuthorById() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Enter the ID of the author to delete:");
+            int authorId = scanner.nextInt();
+
+            String sql = "DELETE FROM author WHERE id = ?";
+
+            try (Connection connection = conn1.database();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, authorId);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Author with ID " + authorId + " deleted successfully.");
+                } else {
+                    System.out.println("Author with ID " + authorId + " not found or deletion failed.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 

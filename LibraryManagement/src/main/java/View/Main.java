@@ -10,10 +10,13 @@ public class Main {
         Myjdbc myjdbc = new Myjdbc();
         myjdbc.database();
         AuthorController authorController = new AuthorController();
-        authorController.displayAuthor();
-
+       // authorController.displayAuthor();
         Author author = new Author();
+        // author.createAuthor();
 
-        author.createAuthor();
+
+        int authorIdToDelete = 3;
+        author.deleteAuthorById();
+
     }
 }
