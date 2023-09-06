@@ -117,6 +117,38 @@ public void Author(Connection connection){
             e.printStackTrace();
         }
     }
+    public void updateAuthorById() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Enter the ID of the author to update:");
+            int authorId = scanner.nextInt();
+
+            System.out.println("Enter the new name for the author:");
+            scanner.nextLine(); // Consume the newline character
+            String newName = scanner.nextLine();
+
+            String sql = "UPDATE author SET name = ? WHERE id = ?";
+
+            try (Connection connection = conn1.database();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setString(1, newName);
+                preparedStatement.setInt(2, authorId);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Author with ID " + authorId + " updated successfully.");
+                } else {
+                    System.out.println("Author with ID " + authorId + " not found or update failed.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 

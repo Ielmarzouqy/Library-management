@@ -15,8 +15,9 @@ public class Main {
         // author.createAuthor();
 
 
-        int authorIdToDelete = 3;
-        author.deleteAuthorById();
+       // int authorIdToDelete = 3;
+       // author.deleteAuthorById();
+        author.updateAuthorById();
 
     }
 }
