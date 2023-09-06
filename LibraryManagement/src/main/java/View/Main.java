@@ -3,6 +3,8 @@ package View;
 import DbConnection.Myjdbc;
 import Controllers.AuthorController;
 
+import Models.Author;
+
 public class Main {
     public static void main(String[] args) {
         Myjdbc myjdbc = new Myjdbc();
@@ -10,5 +12,8 @@ public class Main {
         AuthorController authorController = new AuthorController();
         authorController.displayAuthor();
 
+        Author author = new Author();
+
+        author.createAuthor();
     }
 }

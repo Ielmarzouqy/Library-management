@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Author {
     Myjdbc conn1 = new Myjdbc();
@@ -44,6 +45,32 @@ public void Author(Connection connection){
            return null;
         }
         public void createAuthor() {
+                    try {
+                        Scanner scanner = new Scanner(System.in);
+
+                        System.out.println("Enter the author's name:");
+                        String authorName = scanner.nextLine();
+
+                        String sql = "INSERT INTO author (name) VALUES (?)";
+
+                        try (Connection connection = conn1.database();
+                             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                            preparedStatement.setString(1, authorName);
+
+                            int rowsAffected = preparedStatement.executeUpdate();
+
+                            if (rowsAffected > 0) {
+                                System.out.println("Author inserted successfully.");
+                            } else {
+                                System.out.println("Failed to insert author.");
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+
         }
         public List<Author> getAllAuthors(){
             List<Author> authors = new ArrayList<>();
