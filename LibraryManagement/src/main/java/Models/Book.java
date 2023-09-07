@@ -86,7 +86,37 @@ public class Book {
     public void deleteBook() {
 
     }
-    
+    public void createBook() throws SQLException {
+        try {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Is the book available? (true/false): ");
+            boolean available = scanner.nextBoolean();
+            System.out.println("Is the book islost? (true/false): ");
+            boolean islost = scanner.nextBoolean();
+            System.out.println("Enter Price: ");
+            float price = scanner.nextFloat();
+            System.out.println("Enter Collection ID: ");
+            int collectionId = scanner.nextInt();
+            String sql = "INSERT INTO book ( `price`, `available`, `isLost`, `isbn`) VALUE (?,?,?,?)";
+            try(
+                Connection connection = conn1.database();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setFloat(1, price);
+                preparedStatement.setBoolean(2,available);
+                preparedStatement.setBoolean(3, islost);
+                preparedStatement.setInt(4, collectionId);
+                int rowsAffected = preparedStatement.executeUpdate();
+                if(rowsAffected>0) {
+                    System.out.println("book added succcessfuly");
+                }else {
+                    System.out.println("failed to add book");
+                }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
