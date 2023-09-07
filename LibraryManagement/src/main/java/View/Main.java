@@ -38,7 +38,7 @@ public class Main {
             System.out.println("7. Create Author");
             System.out.println("8. Delete Author by ID");
             System.out.println("9. Update Author by ID");
-            //System.out.println("10. Insert Collection");
+            System.out.println("10. Delete Book");
             System.out.println("11. Exit");
             System.out.print("Enter your choice: ");
 
@@ -74,7 +74,7 @@ public class Main {
                     author.updateAuthorById();
                     break;
                 case 10:
-                    //collection.insertCollection();
+                    book.deleteBookById();
                     break;
                 case 11:
                     System.out.println("Exiting program.");

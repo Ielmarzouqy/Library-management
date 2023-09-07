@@ -83,9 +83,6 @@ public class Book {
     public Book readBook(String SBIN) {
         return null;
     }
-    public void deleteBook() {
-
-    }
     public void createBook() throws SQLException {
         try {
             Scanner scanner = new Scanner(System.in);
@@ -191,6 +188,31 @@ public class Book {
         }
         return availableBooks;
     }
+    public void deleteBookById() {
+        try {
+            Scanner scanner = new Scanner(System.in);
 
+            System.out.println("Enter the ID of the book to delete:");
+            int bookId = scanner.nextInt();
+
+            String sql = "DELETE FROM book WHERE id = ?";
+
+            try (Connection connection = conn1.database();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, bookId);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Author with ID " + bookId + " deleted successfully.");
+                } else {
+                    System.out.println("Author with ID " + bookId + " not found or deletion failed.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
