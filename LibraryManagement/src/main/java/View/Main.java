@@ -39,7 +39,8 @@ public class Main {
             System.out.println("8. Delete Author by ID");
             System.out.println("9. Update Author by ID");
             System.out.println("10. Delete Book");
-            System.out.println("11. Exit");
+            System.out.println("11. Update Book");
+            System.out.println("12. Exit");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
@@ -77,12 +78,15 @@ public class Main {
                     book.deleteBookById();
                     break;
                 case 11:
+                    book.updateBookById();
+                    break;
+                case 12:
                     System.out.println("Exiting program.");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 11);
+        } while (choice != 12);
 
         scanner.close();
     }

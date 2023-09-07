@@ -215,4 +215,36 @@ public class Book {
         }
     }
 
+    public void updateBookById() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Enter the ID of the book to update:");
+            int bookId = scanner.nextInt();
+
+            System.out.println("Enter the new price for the book:");
+            scanner.nextLine(); // Consume the newline character
+            float newPrice = scanner.nextFloat();
+
+            String sql = "UPDATE book SET price =? WHERE id = ?";
+
+            try (Connection connection = conn1.database();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setFloat(1, newPrice);
+                preparedStatement.setInt(2, bookId);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Author with ID " + bookId + " updated successfully.");
+                } else {
+                    System.out.println("Author with ID " + bookId + " not found or update failed.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
