@@ -145,7 +145,30 @@ public class Book {
             e.printStackTrace();
         }
     }
-
+    public void searchBookByAuthor() {
+        Book book = null;
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter the author of the book:");
+            String name = scanner.nextLine();
+            String sql = "SELECT * FROM `book` inner join collection  on book.isbn = collection.id INNER join author on collection.author = author.id where name =?";
+            try ( Connection connection = conn1.database();
+                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, name);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    book = new Book();
+                    //book.collection(resultSet.getCollection());
+                    book.setId(resultSet.getInt("id"));
+                    int bookId = resultSet.getInt("book.id");
+                    float bookPrice = resultSet.getFloat("book.price");
+                    System.out.println("Book ID: " + bookId);
+                    System.out.println("Book price: " + bookPrice);
+                }
+            }} catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
