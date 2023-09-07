@@ -223,17 +223,29 @@ public class Book {
             int bookId = scanner.nextInt();
 
             System.out.println("Enter the new price for the book:");
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine();
             float newPrice = scanner.nextFloat();
+            System.out.println("Enter the new availability for the book:");
+            scanner.nextLine();
+            boolean newstatus = scanner.nextBoolean();
 
-            String sql = "UPDATE book SET price =? WHERE id = ?";
+            System.out.println("Enter the book is messing for the book:");
+            scanner.nextLine();
+            boolean lostBook = scanner.nextBoolean();
+            System.out.println("Enter the new isbn for the book:");
+            scanner.nextLine();
+            int newIsbn = scanner.nextInt();
+
+            String sql = "UPDATE book SET price =?, available=?,lostbook=?,isbn=?  WHERE id = ?";
 
             try (Connection connection = conn1.database();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                 preparedStatement.setFloat(1, newPrice);
-                preparedStatement.setInt(2, bookId);
-
+                preparedStatement.setBoolean(2, newstatus);
+                preparedStatement.setBoolean(3, lostBook);
+                preparedStatement.setInt(4, newIsbn);
+                preparedStatement.setInt(5, bookId);
                 int rowsAffected = preparedStatement.executeUpdate();
 
                 if (rowsAffected > 0) {
