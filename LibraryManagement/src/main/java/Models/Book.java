@@ -1,70 +1,95 @@
 package Models;
 
+import java.sql.*;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
+
+import DbConnection.Myjdbc;
+
 public class Book {
-        public int id;
-        public Collection collection;
-        public float price;
-        public boolean available;
-        public boolean lostBook;
 
-        public Book(int id, Collection collection, float price, boolean available, boolean lostBook) {
+    Myjdbc conn1 = new Myjdbc();
 
-            this.id = id;
-            this.collection = collection;
-            this.price = price;
-            this.available = available;
-            this.lostBook = lostBook;
+    public int id;
+    public Collection collection;
+    public float price;
+    public boolean available;
+    public boolean islost;
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setCollection(int cllection) {
+        this.collection = collection;
 
-        }
+    }
+    public Collection getCollection(){
+        return collection;
+    }
+    public void setPrice(float price) {
+        this.price = price;
+    }
+    public float getPrice() {
+        return price;
+    }
+    public void setAvailable(Boolean available2) {
+        this.available = available2;
+    }
+    public boolean getAvailable() {
+        return 	available;
+    }
+    public void setIsLost(boolean islost) {
+        this.islost = islost;
+    }
+    public boolean getIsLost() {
+        return islost;
+    }
 
-        public int getId() {
-            return id;
-        }
-        public void setId(int id) {
-            this.id = id;
-        }
-        public void setCollection(Collection collection) {
-            this.collection = collection;
+    public List<Book> getAllBooks(){
+        List<Book> books = new ArrayList<>();
+        String sql = "SELECT b.*, c.id AS isbn FROM book b " +
+                "INNER JOIN collection c ON b.isbn = c.id";
+        try {
+            Connection connection = conn1.database();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-        }
-        public Collection getCollection(){
-            return collection;
-        }
-        public float getPrice() {
-            return price;
-        }
-        public boolean getAvailable() {
-            return 	available;
-        }
-        public boolean getLostBook() {
-            return lostBook;
-        }
+            while (resultSet.next()) {
+                Book book = new Book();
+                book.setId(resultSet.getInt("id"));
+                book.setCollection(resultSet.getInt("isbn"));
+                book.setPrice(resultSet.getFloat("price"));
+                book.setIsLost(resultSet.getBoolean("lostbook"));
+                book.setAvailable(resultSet.getBoolean("available"));
 
-        public Book[] readBooks(String text) {
-            if(text == null) {
-
-            }else {
-
+                books.add(book);
             }
-            return null ;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        public Book readBook(int id) {
-            return null;
-        }
+        return books;
+    }
 
-        public Book readBook(String SBIN) {
-            return null;
-        }
+    public Book readBook(int id) {
+        return null;
+    }
 
-        public void updateBook() {
-            System.out.println("updated");
-        }
-        public void deleteBook() {
+    public Book readBook(String SBIN) {
+        return null;
+    }
+    public void deleteBook() {
 
-        }
-        public void createBook() {
+    }
+    
 
-        }
+
+
+
 
 }
