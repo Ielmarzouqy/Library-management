@@ -9,6 +9,7 @@ import Controllers.BookController;
 
 import Models.Author;
 import Models.Book;
+import Models.BorrowBook;
 
 import Models.Collection;
 import java.util.Scanner;
@@ -23,6 +24,7 @@ public class Main {
         Author author = new Author();
         Book book = new Book();
         Collection collection = new Collection();
+        BorrowBook borrowBook = new BorrowBook();
 
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -40,7 +42,9 @@ public class Main {
             System.out.println("9. Update Author by ID");
             System.out.println("10. Delete Book");
             System.out.println("11. Update Book");
-            System.out.println("12. Exit");
+
+            System.out.println("12. Borrow Book");
+            System.out.println("13. Exit");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
@@ -81,6 +85,9 @@ public class Main {
                     book.updateBookById();
                     break;
                 case 12:
+                    borrowBook.borrowingBook();
+                    break;
+                case 13:
                     System.out.println("Exiting program.");
                     break;
                 default:

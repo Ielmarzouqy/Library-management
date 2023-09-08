@@ -87,22 +87,23 @@ public class Book {
         try {
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Is the book available? (true/false): ");
-            boolean available = scanner.nextBoolean();
-            System.out.println("Is the book islost? (true/false): ");
-            boolean islost = scanner.nextBoolean();
+            //System.out.println("Is the book available? (true/false): ");
+           // boolean available = scanner.nextBoolean();
+          //  System.out.println("Is the book islost? (true/false): ");
+           // boolean islost = scanner.nextBoolean();
             System.out.println("Enter Price: ");
             float price = scanner.nextFloat();
             System.out.println("Enter Collection ID: ");
             int collectionId = scanner.nextInt();
-            String sql = "INSERT INTO book ( `price`, `available`, `isLost`, `isbn`) VALUE (?,?,?,?)";
+            String sql = "INSERT INTO book ( `price`, `available`, `lostbook`, `isbn`) VALUE (?,true,false,?)";
             try(
                 Connection connection = conn1.database();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+
                 preparedStatement.setFloat(1, price);
-                preparedStatement.setBoolean(2,available);
-                preparedStatement.setBoolean(3, islost);
-                preparedStatement.setInt(4, collectionId);
+               // preparedStatement.setBoolean(2,available);
+               // preparedStatement.setBoolean(3, islost);
+                preparedStatement.setInt(2, collectionId);
                 int rowsAffected = preparedStatement.executeUpdate();
                 if(rowsAffected>0) {
                     System.out.println("book added succcessfuly");
