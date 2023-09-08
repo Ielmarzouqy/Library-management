@@ -16,7 +16,7 @@ public class Book {
     public int id;
     public Collection collection;
     public float price;
-    public boolean available;
+    public static boolean available ;
     public boolean islost;
 
     public int getId() {
@@ -41,7 +41,8 @@ public class Book {
     public void setAvailable(Boolean available2) {
         this.available = available2;
     }
-    public boolean getAvailable() {
+    public static boolean  getAvailable() {
+
         return 	available;
     }
     public void setIsLost(boolean islost) {

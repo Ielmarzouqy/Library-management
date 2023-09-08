@@ -25,7 +25,6 @@ public class Main {
         Book book = new Book();
         Collection collection = new Collection();
         BorrowBook borrowBook = new BorrowBook();
-
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -44,11 +43,12 @@ public class Main {
             System.out.println("11. Update Book");
 
             System.out.println("12. Borrow Book");
+           // System.out.println("13. Check status Book");
             System.out.println("13. Exit");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -87,13 +87,14 @@ public class Main {
                 case 12:
                     borrowBook.borrowingBook();
                     break;
+
                 case 13:
                     System.out.println("Exiting program.");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 12);
+        } while (choice != 13);
 
         scanner.close();
     }

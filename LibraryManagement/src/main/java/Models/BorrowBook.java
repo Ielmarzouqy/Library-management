@@ -1,8 +1,12 @@
 package Models;
+import Controllers.BookController;
 import DbConnection.Myjdbc;
-
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import java.util.Scanner;
 
 public class BorrowBook {
@@ -57,40 +61,65 @@ public class BorrowBook {
 
         public void setBook(Book borrowedBook) {
             this.borrowedBook = borrowedBook;
-
-
         }
+    public Book getBook(){
+        return borrowedBook;
+    }
+       public void borrowingBook() {
+           try {
+               Book book = new Book();
+               Date date = new Date();
+               Scanner scanner = new Scanner(System.in);
+               java.sql.Date dateStart = new java.sql.Date(date.getTime());
+               SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        public void borrowingBook(){
-            try{
-                Scanner scanner = new Scanner(System.in);
+               System.out.println("Choose the id of the Book");
+               int borrowedBook = scanner.nextInt();
+               System.out.println("Choose the member");
+               int member = scanner.nextInt();
+               scanner.nextLine(); // Consume the newline character
 
-                System.out.println("Choose the id of the Book");
-                int borrowedBook = scanner.nextInt();
-                System.out.println("Choose the member");
-                int member = scanner.nextInt();
-                //System.out.println("write the due date");
-               // String dateEnd = scanner.nextLine();
-                String sql = "INSERT INTO `borrowbook`( `bookborrowed`, `memberid`, `islosted`) VALUES (?,?,false) ";
-                try(
-                        Connection connection = conn.database();
-                        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                       // ResultSet resultSet = preparedStatement.executeQuery();
-                ) {
-                    preparedStatement.setInt(1, borrowedBook);
-                    preparedStatement.setInt(2,member);
-                    //preparedStatement.setString(3,dateEnd);
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    if(rowsAffected>0){
-                        System.out.println("book is borrowed successfuly");
-                    }else{
-                        System.out.println("Failed to borrow book");
-                    }
-                } }catch(SQLException e){
-                    e.printStackTrace();
-                }
-        }
+               String duedate;
+               Date dateEnd = null;
+               java.sql.Date sqlDateEnd = null;
 
+               // Input validation loop
+               boolean validInput = false;
+               while (!validInput) {
+                   System.out.println("Write the due date (yyyy-MM-dd)");
+                   duedate = scanner.nextLine();
+
+                   try {
+                       dateEnd = dateFormat.parse(duedate);
+                       sqlDateEnd = new java.sql.Date(dateEnd.getTime());
+                       validInput = true; // Set to true if parsing succeeds
+                   } catch (ParseException e) {
+                       System.err.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                   }
+               }
+
+               String sql = "INSERT INTO `borrowbook`(`bookborrowed`, `memberid`, `dateStart`, `dateEnd`, `islosted`) VALUES (?, ?, ?, ?, false)";
+
+               try (
+                       Connection connection = conn.database();
+                       PreparedStatement preparedStatement = connection.prepareStatement(sql);
+               ) {
+                   preparedStatement.setInt(1, borrowedBook);
+                   preparedStatement.setInt(2, member);
+                   preparedStatement.setDate(3, dateStart);
+                   preparedStatement.setDate(4, sqlDateEnd);
+
+                   int rowsAffected = preparedStatement.executeUpdate();
+                   if (rowsAffected > 0) {
+                       System.out.println("Book is borrowed successfully");
+                   } else {
+                       System.out.println("Failed to borrow book");
+                   }
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+       }
         public void returnBook(){
 
         }
