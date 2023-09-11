@@ -260,5 +260,27 @@ public class Book {
             e.printStackTrace();
         }
     }
+    public List<Book> getNonAvailableBooks() {
+        List<Book> availableBooks = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM `book` WHERE available =  false";
+            try(
+                    Connection connection = conn1.database();
+                    PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    Book book = new Book();
+                    book.setId(resultSet.getInt("id"));
+                    book.setCollection(resultSet.getInt("isbn"));
+                    book.setPrice(resultSet.getFloat("price"));
+                    book.setIsLost(resultSet.getBoolean("lostbook"));
+                    book.setAvailable(resultSet.getBoolean("available"));
+                    availableBooks.add(book);
+                }
+            }} catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return availableBooks;
+    }
 
 }

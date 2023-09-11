@@ -44,8 +44,9 @@ public class Main {
             System.out.println("11. Update Book");
 
             System.out.println("12. Borrow Book");
-           // System.out.println("13. Check status Book");
-            System.out.println("13. Exit");
+           System.out.println("13. Non available  Book");
+            System.out.println("14. Return  Book");
+            System.out.println("15. Exit");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
@@ -88,14 +89,18 @@ public class Main {
                 case 12:
                     borrowBook.borrowingBook();
                     break;
-
                 case 13:
+                    bookController.displayNonAvailableBooks();
+                    break;
+                case 14:
+                   borrowBook.returnBook();
+                case 15:
                     System.out.println("Exiting program.");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 13);
+        } while (choice != 15);
 
         scanner.close();
     }

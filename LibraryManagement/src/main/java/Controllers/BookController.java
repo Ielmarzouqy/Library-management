@@ -33,6 +33,18 @@ public class BookController {
             System.out.println();
         }
     }
+    public static void displayNonAvailableBooks() {
+        List<Book> availableBooks = new Book().getNonAvailableBooks();
+        for( Book book :availableBooks){
+            //System.out.println(book.getId());
+            System.out.println("Book ID: " + book.getId());
+            System.out.println("Collection ID: " + book.getCollection());
+            System.out.println("Price: " + book.getPrice());
+            System.out.println("Is Lost: " + book.getIsLost());
+            System.out.println("Available: " + book.getAvailable());
+            System.out.println();
+        }
+    }
 
    /* public static void checkBook(int borrowerBook){
         // check book id , if book is available or not

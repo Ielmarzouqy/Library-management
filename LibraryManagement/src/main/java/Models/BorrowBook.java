@@ -135,7 +135,27 @@ public class BorrowBook {
            }
        }
         public void returnBook(){
+            Scanner scanner = new Scanner(System.in);
             System.out.println("wich book you want returned");
+           // borrowedBooks.getNonAvailableBooks();
+            int bookreturned = scanner.nextInt();
+           BookController  borrowedBooks = new BookController();
 
+
+        String returnBook = "UPDATE book SET available = ? WHERE id = ?";
+        try(
+                Connection connection = conn.database();
+                PreparedStatement returnB = connection.prepareStatement(returnBook)
+                ){
+            returnB.setBoolean(1, true);
+            returnB.setInt(2, bookreturned);
+            int rowsAffected = returnB.executeUpdate();
+            if(rowsAffected>0){
+                System.out.println("book is returned successfuly");
+            }
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
         }
 }
