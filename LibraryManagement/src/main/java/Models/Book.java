@@ -283,4 +283,35 @@ public class Book {
         return availableBooks;
     }
 
+    public void statisticBooks() {
+        try {
+            Connection connection = conn1.database();
+
+            String availableBooksQuery = "SELECT COUNT(*) FROM book WHERE available = ?";
+            PreparedStatement availableBooksStatement = connection.prepareStatement(availableBooksQuery);
+            availableBooksStatement.setBoolean(1, true);
+            ResultSet availableBooksResult = availableBooksStatement.executeQuery();
+            int availableBookCount = 0;
+
+            if (availableBooksResult.next()) {
+                availableBookCount = availableBooksResult.getInt(1);
+            }
+            String borrowedBooksQuery = "SELECT COUNT(*) FROM book WHERE available = ?";
+            PreparedStatement borrowedBooksStatement = connection.prepareStatement(borrowedBooksQuery);
+            borrowedBooksStatement.setBoolean(1, false);
+            ResultSet borrowedBooksResult = borrowedBooksStatement.executeQuery();
+            int borrowedBookCount = 0;
+
+            if (borrowedBooksResult.next()) {
+                borrowedBookCount = borrowedBooksResult.getInt(1);
+            }
+
+            System.out.println("Book Statistics:");
+            System.out.println("Available Books: " + availableBookCount);
+            System.out.println("Borrowed Books: " + borrowedBookCount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
