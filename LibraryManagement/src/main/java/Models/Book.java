@@ -313,5 +313,26 @@ public class Book {
             e.printStackTrace();
         }
     }
+    public void messingBooks(){
+        String missingBooksql = "SELECT COUNT(*) FROM book WHERE lostbook = ?";
+
+        try(
+                Connection connection = conn1.database();
+
+                PreparedStatement missingBooksStatement = connection.prepareStatement(missingBooksql);
+
+        ) {
+            missingBooksStatement.setBoolean(1, true);
+            ResultSet availableBooksResult = missingBooksStatement.executeQuery();
+            int lostbooks =0;
+            if(availableBooksResult.next()){
+                lostbooks = availableBooksResult.getInt(1);
+                System.out.println("missing Books: " + lostbooks);
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 
 }
