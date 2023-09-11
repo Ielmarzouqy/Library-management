@@ -77,13 +77,11 @@ public class BorrowBook {
                int borrowedBook = scanner.nextInt();
                System.out.println("Choose the member");
                int member = scanner.nextInt();
-               scanner.nextLine(); // Consume the newline character
+               scanner.nextLine();
 
                String duedate;
                Date dateEnd = null;
                java.sql.Date sqlDateEnd = null;
-
-               // Input validation loop
                boolean validInput = false;
                while (!validInput) {
                    System.out.println("Write the due date (yyyy-MM-dd)");
@@ -92,7 +90,7 @@ public class BorrowBook {
                    try {
                        dateEnd = dateFormat.parse(duedate);
                        sqlDateEnd = new java.sql.Date(dateEnd.getTime());
-                       validInput = true; // Set to true if parsing succeeds
+                       validInput = true;
                    } catch (ParseException e) {
                        System.err.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
                    }

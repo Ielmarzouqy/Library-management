@@ -7,11 +7,8 @@ import java.sql.SQLException;
 import Controllers.AuthorController;
 import Controllers.BookController;
 
-import Models.Author;
-import Models.Book;
-import Models.BorrowBook;
+import Models.*;
 
-import Models.Collection;
 import java.util.Scanner;
 import java.sql.SQLException;
 
@@ -26,6 +23,7 @@ public class Main {
         Book book = new Book();
         Collection collection = new Collection();
         BorrowBook borrowBook = new BorrowBook();
+        Member member = new Member();
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -50,7 +48,9 @@ public class Main {
             System.out.println("16. missing books");
             System.out.println("17: lost book from member");
             System.out.println("18: lost book in library");
-            System.out.println("19. Exit");
+            System.out.println("19: add member");
+            System.out.println("20: update member");
+            System.out.println("21. Exit");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
@@ -112,13 +112,18 @@ public class Main {
                     book.missingBook();
                     break;
                 case 19:
+                    member.createMemeber();
+                    break;
+                case 20:
+                    member.updateMember();
+                case 21:
                     System.out.println("Exiting program.");
                     break;
 
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 19);
+        } while (choice != 21);
 
         scanner.close();
     }

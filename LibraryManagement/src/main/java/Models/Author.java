@@ -11,17 +11,12 @@ import java.util.Scanner;
 
 public class Author {
     Myjdbc conn1 = new Myjdbc();
-public void Author(Connection connection){
-   // this.connection = connection;
-}
+    Connection connection = conn1.database();
+    public void Author(Connection connection){
+        // this.connection = connection;
+    }
         public int id;
         public String name;
-    //public Author(String name) {
-    //    this.name = name;
-   // }
-
-   // public Author() {
- //   }
     public void setId(int id) {
         this.id = id;
     }
@@ -53,8 +48,7 @@ public void Author(Connection connection){
 
                         String sql = "INSERT INTO author (name) VALUES (?)";
 
-                        try (Connection connection = conn1.database();
-                             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                             preparedStatement.setString(1, authorName);
 
@@ -76,7 +70,7 @@ public void Author(Connection connection){
             List<Author> authors = new ArrayList<>();
             String sql = "SELECT * FROM author";
             try {
-                Connection connection = conn1.database();
+                //Connection connection = conn1.database();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -100,7 +94,7 @@ public void Author(Connection connection){
 
             String sql = "DELETE FROM author WHERE id = ?";
 
-            try (Connection connection = conn1.database();
+            try (//Connection connection = conn1.database();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                 preparedStatement.setInt(1, authorId);
@@ -120,24 +114,17 @@ public void Author(Connection connection){
     public void updateAuthorById() {
         try {
             Scanner scanner = new Scanner(System.in);
-
             System.out.println("Enter the ID of the author to update:");
             int authorId = scanner.nextInt();
-
             System.out.println("Enter the new name for the author:");
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine();
             String newName = scanner.nextLine();
-
             String sql = "UPDATE author SET name = ? WHERE id = ?";
-
-            try (Connection connection = conn1.database();
+            try (//Connection connection = conn1.database();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
                 preparedStatement.setString(1, newName);
                 preparedStatement.setInt(2, authorId);
-
                 int rowsAffected = preparedStatement.executeUpdate();
-
                 if (rowsAffected > 0) {
                     System.out.println("Author with ID " + authorId + " updated successfully.");
                 } else {
