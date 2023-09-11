@@ -313,7 +313,7 @@ public class Book {
             e.printStackTrace();
         }
     }
-    public void messingBooks(){
+    public void messingBooksCount(){
         String missingBooksql = "SELECT COUNT(*) FROM book WHERE lostbook = ?";
 
         try(

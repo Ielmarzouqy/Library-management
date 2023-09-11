@@ -48,7 +48,9 @@ public class Main {
             System.out.println("14. Return  Book");
             System.out.println("15. get statistic of books");
             System.out.println("16. missing books");
-            System.out.println("17. Exit");
+            System.out.println("17: lost book from member");
+            System.out.println("18: lost book in library");
+            System.out.println("19. Exit");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
@@ -101,15 +103,19 @@ public class Main {
                     book.statisticBooks();
                     break;
                 case 16:
-                    book.messingBooks();
+                    book.messingBooksCount();
+                    break;
                 case 17:
+                    borrowBook.lostBooks();
+                    break;
+                case 19:
                     System.out.println("Exiting program.");
                     break;
 
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 17);
+        } while (choice != 19);
 
         scanner.close();
     }

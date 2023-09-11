@@ -98,7 +98,7 @@ public class BorrowBook {
                    }
                }
 
-               String sql = "INSERT INTO `borrowbook`(`bookborrowed`, `memberid`, `dateStart`, `dateEnd`, `islosted`) VALUES (?, ?, ?, ?, false)";
+               String sql = "INSERT INTO `borrowbook`(`bookborrowed`, `memberid`, `dateStart`, `dateEnd`, `islosted`) VALUES (?, ?, ?, ?, ?)";
 
                try (
                        Connection connection = conn.database();
@@ -108,6 +108,7 @@ public class BorrowBook {
                    preparedStatement.setInt(2, member);
                    preparedStatement.setDate(3, dateStart);
                    preparedStatement.setDate(4, sqlDateEnd);
+                   preparedStatement.setBoolean(5, false);
 
                    int rowsAffected = preparedStatement.executeUpdate();
                    if (rowsAffected > 0) {
@@ -158,4 +159,29 @@ public class BorrowBook {
             e.printStackTrace();
         }
         }
+
+    public void lostBooks(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("wich book is losted?");
+
+        int bookLosted = scanner.nextInt();
+
+        String lostBook = "UPDATE borrowbook SET islosted = ? WHERE id = ?";
+        try(
+                Connection connection = conn.database();
+                PreparedStatement lostB = connection.prepareStatement(lostBook)
+        ){
+            lostB.setBoolean(1, true);
+            lostB.setInt(2, bookLosted);
+            int rowsAffected = lostB.executeUpdate();
+            if(rowsAffected>0){
+                System.out.println("book is losted");
+
+               
+            }
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
