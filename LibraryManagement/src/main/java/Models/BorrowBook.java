@@ -112,6 +112,20 @@ public class BorrowBook {
                    int rowsAffected = preparedStatement.executeUpdate();
                    if (rowsAffected > 0) {
                        System.out.println("Book is borrowed successfully");
+                         String updateStatusBook = "UPDATE book SET available = ? WHERE id =?";
+                         try(
+                                 PreparedStatement updateStatus = connection.prepareStatement(updateStatusBook)
+
+                                 ){updateStatus.setBoolean(1, false);
+                                    updateStatus.setInt(2, borrowedBook);
+                            int statusupdated = updateStatus.executeUpdate();
+                            if(statusupdated>0){
+                                System.out.println("status of book updeted");
+
+                            }else {
+                                System.out.println("failed to update status");
+                            }
+                         }
                    } else {
                        System.out.println("Failed to borrow book");
                    }
@@ -121,6 +135,7 @@ public class BorrowBook {
            }
        }
         public void returnBook(){
+            System.out.println("wich book you want returned");
 
         }
 }
