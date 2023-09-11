@@ -163,12 +163,12 @@ public class BorrowBook {
     public void lostBooks(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("wich book is losted?");
+        Connection connection = conn.database();
 
         int bookLosted = scanner.nextInt();
 
         String lostBook = "UPDATE borrowbook SET islosted = ? WHERE id = ?";
         try(
-                Connection connection = conn.database();
                 PreparedStatement lostB = connection.prepareStatement(lostBook)
         ){
             lostB.setBoolean(1, true);
@@ -177,7 +177,18 @@ public class BorrowBook {
             if(rowsAffected>0){
                 System.out.println("book is losted");
 
-               
+               String updatelostBooksql = "Update book set lostbook = ? where id = ? ";
+               try(
+                      PreparedStatement updatelostBook = connection.prepareStatement(updatelostBooksql);
+                       ){
+
+                   updatelostBook.setBoolean(1, true);
+                   updatelostBook.setInt(2,bookLosted );
+                   int res = updatelostBook.executeUpdate();
+                   if(res>0){
+                       System.out.println("lost book in book is updated");
+                   }
+               }
             }
 
         }catch (SQLException e) {
