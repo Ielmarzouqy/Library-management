@@ -108,6 +108,9 @@ public class Main {
                 case 17:
                     borrowBook.lostBooks();
                     break;
+                case 18:
+                    book.missingBook();
+                    break;
                 case 19:
                     System.out.println("Exiting program.");
                     break;

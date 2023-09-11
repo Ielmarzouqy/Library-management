@@ -10,8 +10,10 @@ import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 import DbConnection.Myjdbc;
 
 public class Book {
+    Scanner scanner = new Scanner(System.in);
 
     Myjdbc conn1 = new Myjdbc();
+    Connection connection = conn1.database();
 
     public int id;
     public Collection collection;
@@ -240,7 +242,7 @@ public class Book {
 
             String sql = "UPDATE book SET price =?, available=?,lostbook=?,isbn=?  WHERE id = ?";
 
-            try (Connection connection = conn1.database();
+            try (//Connection connection = conn1.database();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                 preparedStatement.setFloat(1, newPrice);
@@ -265,7 +267,7 @@ public class Book {
         try {
             String sql = "SELECT * FROM `book` WHERE available =  false";
             try(
-                    Connection connection = conn1.database();
+                   // Connection connection = conn1.database();
                     PreparedStatement preparedStatement = connection.prepareStatement(sql)){
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
@@ -285,7 +287,7 @@ public class Book {
 
     public void statisticBooks() {
         try {
-            Connection connection = conn1.database();
+          // Connection connection = conn1.database();
 
             String availableBooksQuery = "SELECT COUNT(*) FROM book WHERE available = ?";
             PreparedStatement availableBooksStatement = connection.prepareStatement(availableBooksQuery);
@@ -314,14 +316,9 @@ public class Book {
         }
     }
     public void messingBooksCount(){
-        String missingBooksql = "SELECT COUNT(*) FROM book WHERE lostbook = ?";
-
-        try(
-                Connection connection = conn1.database();
-
-                PreparedStatement missingBooksStatement = connection.prepareStatement(missingBooksql);
-
-        ) {
+        String missingBooksqlCount = "SELECT COUNT(*) FROM book WHERE lostbook = ?";
+        try(Connection connection = conn1.database();
+            PreparedStatement missingBooksStatement = connection.prepareStatement(missingBooksqlCount);) {
             missingBooksStatement.setBoolean(1, true);
             ResultSet availableBooksResult = missingBooksStatement.executeQuery();
             int lostbooks =0;
@@ -334,6 +331,35 @@ public class Book {
             e.printStackTrace();
         }
     }
-
-    
+    public void missingBook(){
+       // Scanner scanner = new Scanner(System.in);
+        System.out.println("Write the id of book");
+        int missingBookId = scanner.nextInt();
+        String missingBookSql = "update book set lostbook= ? where id=?";
+        try(
+             PreparedStatement missingBookstm = connection.prepareStatement(missingBookSql);
+        ){
+            missingBookstm.setBoolean(1, true);
+            missingBookstm.setInt(2, missingBookId);
+            int missingBookRes = missingBookstm.executeUpdate();
+            if(missingBookRes>0){
+                System.out.println("book with ID "+missingBookId+"  losted");
+                String statussql ="update book set available = ? where id =?";
+                try(
+                        PreparedStatement sqlstm = connection.prepareStatement(statussql);
+                        ){
+                    sqlstm.setBoolean(1, false);
+                    sqlstm.setInt(2,missingBookId);
+                    int stmRes = sqlstm.executeUpdate();
+                    if(stmRes>0){
+                        System.out.println("Book with ID "+missingBookId + "is not available");
+                    }
+                }
+            }else{
+                System.out.println("Failed ");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
